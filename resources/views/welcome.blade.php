@@ -683,7 +683,7 @@
             <p class="subtitle">Empowering creative professionals with endless opportunities.</p>
             <div class="button-container">
                 <div class="button-glow"></div>
-                <a href="https://myvisionist.test/freelancer" class="button">Get Started</a>
+                <a href="http://fahimi.aizathami.website/freelancer" class="button">Get Started</a>
             </div>
         </div>
 
