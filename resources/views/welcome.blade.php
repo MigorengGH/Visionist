@@ -683,8 +683,9 @@
             <p class="subtitle">Empowering creative professionals with endless opportunities.</p>
             <div class="button-container">
                 <div class="button-glow"></div>
-                <a href="https://myvisionist.test/freelancer" class="button">Get Started</a>
+                <a href="{{ url('/freelancer') }}" class="button">Get Started</a>
             </div>
+
         </div>
 
         <!-- Features Section -->
@@ -753,7 +754,7 @@
             <p class="cta-description">Join thousands of creative professionals who have found success on Visionist. Our platform is designed to help you showcase your talent, connect with clients, and grow your business.</p>
             <div class="button-container">
                 <div class="button-glow"></div>
-                <a href="https://visionist.test/freelancer" class="button">Join Visionist Today</a>
+                <a href="{{ url('/freelancer') }}" class="button">Join Visionist Today</a>
             </div>
         </div>
 

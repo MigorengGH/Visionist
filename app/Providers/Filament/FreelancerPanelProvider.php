@@ -34,6 +34,7 @@ class FreelancerPanelProvider extends PanelProvider
             ->path('freelancer')
             ->authGuard('web')
             ->registration(FreelancerRegister::class)
+            // ->registration()
             ->login()
             ->profile(FreelancerEditProfile::class, false)
             ->emailVerification()
