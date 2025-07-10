@@ -30,7 +30,9 @@ class OtherJobsRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
+
         return $table
+        ->emptyStateHeading('No other jobs from this user')
             ->recordTitleAttribute('title')
             ->columns([
                 TextColumn::make('title')

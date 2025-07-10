@@ -129,7 +129,7 @@ class MyArtworkResource extends Resource
                     ->sortable(),
                 TextColumn::make('likes_count')
                     ->label('Likes')
-                    ->icon('heroicon-o-star')
+                    ->icon('heroicon-o-heart')
                     ->iconColor('warning')
                     ->sortable(),
                 TagsColumn::make('tags')

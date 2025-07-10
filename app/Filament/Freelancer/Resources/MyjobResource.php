@@ -124,25 +124,10 @@ class MyjobResource extends Resource
                                 $record && $record->applications()->exists()
                             ),
                     ]),
-                RichEditor::make('description')
-                ->disableToolbarButtons([
-                    'attachFiles',
-                    'blockquote',
-                    'bold',
-                    'bulletList',
-                    'codeBlock',
-                    'h2',
-                    'h3',
-                    'italic',
-                    'link',
-                    'orderedList',
-                    'redo',
-                    'strike',
-                    'underline',
-                    'undo',
-                ])
+                    //make span 2 row
+                \Filament\Forms\Components\Textarea::make('description')
                     ->required()
-
+                    ->rows(8)
                     ->columnSpanFull()
                     ->disabled(fn (?Makejob $record) =>
                         $record && $record->applications()->exists()
@@ -169,6 +154,7 @@ class MyjobResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+        ->emptyStateHeading('No job post yet')
             ->columns([
                 TextColumn::make('title')
                     ->searchable()
@@ -177,6 +163,7 @@ class MyjobResource extends Resource
                     ->label('Type')
                     ->formatStateUsing(fn ($state) => $state ? 'Online' : 'Physical')
                     ->badge()
+                    ->toggleable(isToggledHiddenByDefault:true)
                     ->color(fn ($state) => $state ? 'success' : 'primary'),
                 TextColumn::make('state_id')
                     ->label('State')

@@ -34,6 +34,12 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
             'isAdmin' => '0',
         ]);
+        User::factory()->create([
+            'name' => 'freelancer3',
+            'email' => 'freelancer3@visionist.com',
+            'password' => bcrypt('password'),
+            'isAdmin' => '0',
+        ]);
 
         // Create 99 additional users (freelancers)
         User::factory(0)->create([

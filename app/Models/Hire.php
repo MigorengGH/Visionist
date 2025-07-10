@@ -51,8 +51,6 @@ class Hire extends Model
         return $this->belongsTo(District::class);
     }
 
-
-
     public function getDisplayStateAttribute()
     {
         return $this->is_online ? '-' : ($this->state?->name ?: '-');

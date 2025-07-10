@@ -48,8 +48,6 @@ class FreelancerEditProfile extends BaseEditProfile
                                     ->dehydrated(false),
                                 TextInput::make('phone')
                                     ->tel()
-
-                                    ->telRegex('/^[+ -][0-9]{1,4}[0-9]{6,10}$/')
                                     ->placeholder('+1234567890')
                                     ->minLength(8)
                                     ->maxLength(15),
@@ -74,6 +72,7 @@ class FreelancerEditProfile extends BaseEditProfile
                                             ->pluck('title', 'id')
                                             ->toArray();
                                     })
+                                    //->live()
                                     ->columnSpanFull(),
                                 Select::make('certificate_2')
                                     ->label('Certificate 2')
@@ -91,6 +90,7 @@ class FreelancerEditProfile extends BaseEditProfile
 
                                         return $query->pluck('title', 'id')->toArray();
                                     })
+                                   // ->live()
                                     ->columnSpanFull(),
                                 Select::make('certificate_3')
                                     ->label('Certificate 3')
@@ -113,6 +113,7 @@ class FreelancerEditProfile extends BaseEditProfile
 
                                         return $query->pluck('title', 'id')->toArray();
                                     })
+                                   // ->live()
                                     ->columnSpanFull(),
                             ]),
                         Tabs\Tab::make('Other')
@@ -133,7 +134,7 @@ class FreelancerEditProfile extends BaseEditProfile
                                 ->helperText('Enter your YouTube channel name or ID')
                                 ->columnSpanFull(),
                                 TagsInput::make('tags')
-                                    ->label('Tags')
+                                    ->label('Tags - Skills & Expertise')
                                     ->placeholder('Add tags to your profile')
                                     ->columnSpanFull(),
                             ]),

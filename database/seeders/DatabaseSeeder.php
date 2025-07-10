@@ -21,8 +21,6 @@ class DatabaseSeeder extends Seeder
             WorkshopSeeder::class,
             CertificateApplicationSeeder::class,
             ArtworkSeeder::class,
-            MakejobSeeder::class,
-            ApplicationSeeder::class,
         ]);
 
     }

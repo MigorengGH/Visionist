@@ -15,6 +15,7 @@ class MyJobsStats extends Widget implements HasForms
 {
     use InteractsWithForms;
 
+    protected int | string | array $columnSpan = '2';
     protected static string $view = 'filament.freelancer.widgets.my-jobs-stats';
 
     public ?array $data = [];
@@ -61,37 +62,20 @@ class MyJobsStats extends Widget implements HasForms
 
         $totalJobs = $query->count();
         $openJobs = (clone $query)->where('status', 'open')->count();
-        $dealJobs = Application::where('user_id', $user->id)
-            ->where('status', 'accepted')
-            ->when($period === 'month', function ($q) {
-                $q->whereMonth('created_at', now()->month)
-                  ->whereYear('created_at', now()->year);
-            })
-            ->when($period === 'year', function ($q) {
-                $q->whereYear('created_at', now()->year);
-            })
-            ->count();
-        $totalBudget = $query->sum('budget');
-        $totalApplications = 0;
-        $totalProposalPrice = 0;
+        $totalBudget = (clone $query)->where('status', 'accepted')->sum('budget');
+        $pendingApplications = 0;
+        $totalProposedPrice = 0;
         foreach ((clone $query)->get() as $job) {
-            $totalApplications += $job->applications()->count();
-            $totalProposalPrice += $job->applications()->sum('proposed_price');
+            $pendingApplications += $job->applications()->where('status', 'pending')->count();
+            $totalProposedPrice += $job->applications()->where('status', 'accepted')->sum('proposed_price');
         }
-        $avgBudget = $totalJobs > 0 ? round($totalBudget / $totalJobs, 2) : 0;
-        $onlineJobs = (clone $query)->where('is_online', true)->count();
-        $physicalJobs = (clone $query)->where('is_online', false)->count();
 
         return [
             'total_jobs' => $totalJobs,
             'open_jobs' => $openJobs,
-            'deal_jobs' => $dealJobs,
             'total_budget' => $totalBudget,
-            'avg_budget' => $avgBudget,
-            'total_applications' => $totalApplications,
-            'total_proposal_price' => $totalProposalPrice,
-            'online_jobs' => $onlineJobs,
-            'physical_jobs' => $physicalJobs,
+            'total_proposed_price' => $totalProposedPrice,
+            'pending_applications' => $pendingApplications,
             'period' => $period,
         ];
     }
@@ -99,5 +83,10 @@ class MyJobsStats extends Widget implements HasForms
     public function updateStats(): void
     {
         $this->dispatch('update-stats');
+    }
+
+    public static function getColumns(): int
+    {
+        return 3; // 3 columns for 3 widgets in a row
     }
 }

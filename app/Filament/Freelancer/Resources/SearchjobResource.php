@@ -30,6 +30,7 @@ use Filament\Infolists\Components\Grid;
 class SearchjobResource extends Resource
 {
 
+    protected static ?string  $breadcrumb = 'Search Jobs';
     protected static ?string $navigationLabel = 'Search Jobs';
     protected static ?string $model = Makejob::class;
     protected static ?string $navigationGroup = 'Job';
@@ -38,13 +39,17 @@ class SearchjobResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+        ->emptyStateHeading('No job available')
             ->columns([
+
                 ImageColumn::make('user.avatar')
-                    ->label('')
+                    ->label('Avatar')
                     ->circular()
+                    ->toggleable(isToggledHiddenByDefault:true)
                     ->defaultImageUrl(fn ($record) => 'https://ui-avatars.com/api/?name=' . urlencode($record->user->name) . '&color=7F9CF5&background=EBF4FF'),
                 TextColumn::make('user.name')
                     ->label('Posted By')
+                    ->toggleable(isToggledHiddenByDefault:true)
                     ->searchable(),
                 TextColumn::make('title')
                     ->searchable()
@@ -53,11 +58,13 @@ class SearchjobResource extends Resource
                     ->label('Type')
                     ->formatStateUsing(fn ($state) => $state ? 'Online' : 'Physical')
                     ->badge()
+                    ->toggleable(isToggledHiddenByDefault:true)
                     ->color(fn ($state) => $state ? 'success' : 'primary'),
                 TextColumn::make('state_id')
                     ->label('State')
                     ->icon('heroicon-o-map')
                     ->color('info')
+                    ->toggleable(isToggledHiddenByDefault:true)
                     ->getStateUsing(fn ($record) => $record->is_online ? 'Online' : (optional(\App\Models\State::find($record->state_id))->name ?? '')),
                 TextColumn::make('district_id')
                     ->label('District')
@@ -67,10 +74,11 @@ class SearchjobResource extends Resource
                 TextColumn::make('tags')
                     ->label('Tags')
                     ->badge()
+                    ->searchable()
                     ->color('success')
                     ->separator(',')
                     ->tooltip(fn ($record) => is_array($record->tags) ? implode(', ', $record->tags) : $record->tags)
-                    ->limit(3)
+                    ->limitList(3)
                     ->sortable(),
                 TextColumn::make('budget')
                     ->money('MYR')

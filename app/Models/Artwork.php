@@ -62,4 +62,17 @@ class Artwork extends Model
         $this->likes()->create(['user_id' => $user->id]);
         return true;
     }
+
+    public function getImageUrlAttribute()
+    {
+        if (is_array($this->image) && !empty($this->image)) {
+            return $this->image[0];
+        }
+
+        if (is_string($this->image) && !empty($this->image)) {
+            return $this->image;
+        }
+
+        return null;
+    }
 }

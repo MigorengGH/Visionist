@@ -2,31 +2,36 @@
 
 namespace App\Filament\Admin\Widgets;
 
-use App\Models\Artwork;
+use App\Models\Makejob;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
 
-class ArtworksChart extends ChartWidget
+class JobActivityChartWidget extends ChartWidget
 {
-    protected static ?string $heading = 'Artworks Created Over Time';
+    public function getHeading(): string
+    {
+        return 'Job Posting Activity (Last 30 Days)';
+    }
 
     protected function getData(): array
     {
-        $data = Artwork::select(
+        $data = Makejob::select(
             DB::raw('DATE(created_at) as date'),
             DB::raw('count(*) as total')
         )
+            ->where('created_at', '>=', now()->subDays(30))
             ->groupBy('date')
             ->orderBy('date')
-            ->limit(7)
             ->get();
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Artworks Created',
+                    'label' => 'Jobs Posted',
                     'data' => $data->pluck('total')->toArray(),
-                    'borderColor' => '#10B981',
+                    'borderColor' => '#F59E0B',
+                    'backgroundColor' => 'rgba(245, 158, 11, 0.1)',
+                    'fill' => true,
                 ],
             ],
             'labels' => $data->pluck('date')->toArray(),

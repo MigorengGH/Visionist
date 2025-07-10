@@ -38,23 +38,8 @@ class ViewSearchjob extends ViewRecord
                         ->numeric()
                         ->prefix('MYR')
                         ->required(),
-                    RichEditor::make('cover_letter')
+                    TextInput::make('cover_letter')
                         ->label('Description/Cover Letter')
-                        ->disableToolbarButtons([
-                            'attachFiles',
-                            'blockquote',
-                            'bold',
-                            'bulletList',
-                            'codeBlock',
-                            'h2',
-                            'h3',
-                            'italic',
-                            'link',
-                            'redo',
-                            'strike',
-                            'underline',
-                            'undo',
-                        ])
                         ->required(),
                     FileUpload::make('cv')
                         ->label('Supporting Documents')
@@ -122,41 +107,41 @@ class ViewSearchjob extends ViewRecord
                             ->markdown()
                             ->columnSpanFull(),
                     ]),
-                Section::make('Applications')
-                    ->schema([
-                        RepeatableEntry::make('applications')
-                            ->schema([
-                                Grid::make(2)
-                                    ->schema([
-                                        TextEntry::make('user.name')
-                                            ->label('Applicant'),
-                                        TextEntry::make('proposed_price')
-                                            ->money('MYR')
-                                            ->label('Proposed Price'),
-                                        TextEntry::make('status')
-                                            ->badge()
-                                            ->color(fn (string $state): string => match ($state) {
-                                                'pending' => 'warning',
-                                                'accepted' => 'success',
-                                                'rejected' => 'danger',
-                                            }),
-                                        TextEntry::make('created_at')
-                                            ->dateTime()
-                                            ->label('Applied On'),
-                                    ]),
-                                TextEntry::make('cover_letter')
-                                    ->markdown()
-                                    ->columnSpanFull(),
-                                Actions::make([
-                                    Action::make('view_cv')
-                                        ->url(fn ($record) => $record->supporting_documents)
-                                        ->openUrlInNewTab()
-                                        ->label('Supporting Documents'),
-                                ]),
-                            ])
-                            ->columns(1),
-                    ])
-                    ->visible(fn ($record) => $record->user_id === Auth::id()),
+                // Section::make('Applications')
+                //     ->schema([
+                //         RepeatableEntry::make('applications')
+                //             ->schema([
+                //                 Grid::make(2)
+                //                     ->schema([
+                //                         TextEntry::make('user.name')
+                //                             ->label('Applicant'),
+                //                         TextEntry::make('proposed_price')
+                //                             ->money('MYR')
+                //                             ->label('Proposed Price'),
+                //                         TextEntry::make('status')
+                //                             ->badge()
+                //                             ->color(fn (string $state): string => match ($state) {
+                //                                 'pending' => 'warning',
+                //                                 'accepted' => 'success',
+                //                                 'rejected' => 'danger',
+                //                             }),
+                //                         TextEntry::make('created_at')
+                //                             ->dateTime()
+                //                             ->label('Applied On'),
+                //                     ]),
+                //                 TextEntry::make('cover_letter')
+                //                     ->markdown()
+                //                     ->columnSpanFull(),
+                //                 Actions::make([
+                //                     Action::make('view_cv')
+                //                         ->url(fn ($record) => $record->supporting_documents)
+                //                         ->openUrlInNewTab()
+                //                         ->label('Supporting Documents'),
+                //                 ]),
+                //             ])
+                //             ->columns(1),
+                //     ])
+                //     ->visible(fn ($record) => $record->user_id === Auth::id()),
             ]);
     }
 }

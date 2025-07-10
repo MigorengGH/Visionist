@@ -64,15 +64,14 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
-            ->pages([
-                Pages\Dashboard::class,
-            ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->pages([])
+            ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
                 //Widgets\FilamentInfoWidget::class,
-                \App\Filament\Admin\Widgets\StatsOverview::class,
-                \App\Filament\Admin\Widgets\ArtworksChart::class,
+                \App\Filament\Admin\Widgets\UserGrowthChartWidget::class,
+                \App\Filament\Admin\Widgets\JobActivityChartWidget::class,
+                \App\Filament\Admin\Widgets\RecentActivityWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

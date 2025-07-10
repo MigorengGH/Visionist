@@ -4,7 +4,6 @@ namespace App\Providers\Filament;
 
 use App\Filament\Freelancer\Pages\Auth\FreelancerRegister;
 use App\Filament\Freelancer\Pages\Auth\FreelancerEditProfile;
-use App\Filament\Freelancer\Pages\CustomChatifyPage;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -20,7 +19,6 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Monzer\FilamentChatifyIntegration\ChatifyPlugin;
 use PHPUnit\Framework\Attributes\Medium;
 use Filament\Support\Enums\MaxWidth;
 
@@ -38,7 +36,6 @@ class FreelancerPanelProvider extends PanelProvider
             ->profile(FreelancerEditProfile::class, false)
             ->emailVerification()
             ->passwordReset()
-            //->plugin(ChatifyPlugin::make()->customPage(CustomChatifyPage::class))
             ->brandName('Visionist')
             ->brandLogoHeight('70px')
             ->brandLogo(asset('storage/logoV/logo-light.svg')) // Ensure this file exists at the specified path
@@ -50,6 +47,7 @@ class FreelancerPanelProvider extends PanelProvider
             ->authMiddleware([Authenticate::class])
             ->colors([
                 'primary' => Color::Amber,
+
             ])
             ->discoverResources(in: app_path('Filament/Freelancer/Resources'), for: 'App\\Filament\\Freelancer\\Resources')
             ->discoverPages(in: app_path('Filament/Freelancer/Pages'), for: 'App\\Filament\\Freelancer\\Pages')
@@ -58,10 +56,10 @@ class FreelancerPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 \App\Filament\Freelancer\Widgets\MyStatsOverview::class,
+                \App\Filament\Freelancer\Widgets\TotalEarningChartWidget::class,
+                \App\Filament\Freelancer\Widgets\ApplicationStatusPieWidget::class,
                 \App\Filament\Freelancer\Widgets\MyJobsStats::class,
-                \App\Filament\Freelancer\Widgets\MyAcceptedJobsStats::class,
                 \App\Filament\Freelancer\Widgets\TopOpenJobsByBudget::class,
-                \App\Filament\Freelancer\Widgets\TopLikedArtworks::class,
             ])
             ->middleware([
                 EncryptCookies::class,

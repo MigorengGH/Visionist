@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('phone')->nullable()->after('email');
             $table->json('tags')->nullable()->after('phone');
-            $table->string('aboutme')->nullable()->after('tags');
+            $table->longText('aboutme')->nullable()->after('tags');
             $table->string('instagram')->nullable()->after('aboutme');
             $table->string('youtube')->nullable()->after('instagram');
             $table->unsignedBigInteger('certificate_1')->nullable()->after('youtube');

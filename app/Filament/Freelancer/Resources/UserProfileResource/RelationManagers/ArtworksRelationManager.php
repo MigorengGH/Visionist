@@ -29,6 +29,7 @@ class ArtworksRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('title')
+            ->modifyQueryUsing(fn ($query) => $query->where('publish', true))
             ->columns([
                 ImageColumn::make('image')
                     ->label('Image')
@@ -41,7 +42,7 @@ class ArtworksRelationManager extends RelationManager
                     ->sortable(),
                 TextColumn::make('likes_count')
                     ->label('Likes')
-                    ->icon('heroicon-o-star')
+                    ->icon('heroicon-o-heart')
                     ->iconColor('warning')
                     ->sortable(),
                 TagsColumn::make('tags')

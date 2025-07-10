@@ -21,7 +21,8 @@ class ViewWhoHiredMe extends ViewRecord
             Action::make('view_contract')
                 ->label('View Contract')
                 ->icon('heroicon-o-document-text')
-                ->url(route('filament.freelancer.resources.who-hired-me.view-contract', $this->record)),
+                ->url(route('filament.freelancer.resources.who-hired-me.view-contract', $this->record))
+                ->visible(fn () => $this->record->status === 'accepted'),
         ];
     }
     public function getInfolist(string $name): ?Infolist

@@ -15,14 +15,9 @@ class FreelancerRegister extends BaseRegister
             ->schema([
                 $this->getNameFormComponent(), // Default name field
                 $this->getEmailFormComponent(), // Default email field
-                TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->rule(Password::min(8) // Minimum 8 characters
-                        ->mixedCase() // Must have uppercase and lowercase
-                        ->numbers() // Must include numbers
-                        ->symbols() // Must include special characters
-                        ->uncompromised()), // Not found in data breaches
+                //$this->getPhoneFormComponent(), // Default phone field
+                $this->getPasswordFormComponent(),
+
                 $this->getPasswordConfirmationFormComponent(), // Default confirmation field
             ]);
     }

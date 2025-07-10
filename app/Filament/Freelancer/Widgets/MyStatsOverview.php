@@ -4,7 +4,11 @@ namespace App\Filament\Freelancer\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Filament\Widgets\StatsOverviewWidget;
+use Filament\Widgets\Concerns\CanPoll;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class MyStatsOverview extends BaseWidget
 {
@@ -12,26 +16,31 @@ class MyStatsOverview extends BaseWidget
     {
         $user = Auth::user();
 
+
         return [
-            Stat::make('My Artworks', $user->artworks()->count())
-                ->description('Total artworks created')
-                ->descriptionIcon('heroicon-m-photo')
-                ->color('success'),
-
             Stat::make('Total Likes', $user->artworks()->withCount('likes')->get()->sum('likes_count'))
-                ->description('Likes received')
-                ->descriptionIcon('heroicon-m-star')
-                ->color('warning'),
+                ->description('Total likes received')
+                ->descriptionIcon('heroicon-m-heart')
+                ->color('danger'),
 
-            Stat::make('Jobs Posted', $user->makejobs()->count())
-                ->description('Jobs created')
-                ->descriptionIcon('heroicon-m-briefcase')
+            //total being hired
+            Stat::make('Accepted Hired', $user->hires()->where('status', 'accepted')->count())
+                ->description('Total hired jobs accepted as freelancer')
+                ->descriptionIcon('heroicon-m-fire')
                 ->color('primary'),
 
-            Stat::make('Jobs Accepted', $user->applications()->where('status', 'Accepted')->count())
-                ->description('Successfully completed')
+            // Count accepted applications for freelancer
+            Stat::make('Accepted Jobs Application', $user->applications()->where('status', 'accepted')->count())
+                ->description('Total jobs accepted as freelancer')
                 ->descriptionIcon('heroicon-m-check-circle')
-                ->color('success'),
+                ->color('info'),
+
+            // Stat::make('Jobs Accepted', $user->applications()->where('status', 'Accepted')->count())
+            //     ->description('Successfully completed')
+            //     ->descriptionIcon('heroicon-m-check-circle')
+            //     ->color('success'),
         ];
     }
+
+    protected int | string | array $columnSpan = 2;
 }

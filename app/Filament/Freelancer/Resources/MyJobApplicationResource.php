@@ -55,6 +55,7 @@ class MyJobApplicationResource extends Resource
                     ->label('Type')
                     ->formatStateUsing(fn ($state) => $state ? 'Online' : 'Physical')
                     ->badge()
+                    ->toggleable(isToggledHiddenByDefault:true)
                     ->color(fn ($state) => $state ? 'success' : 'primary'),
                 TextColumn::make('makejob.state_id')
                     ->label('State')

@@ -130,9 +130,9 @@ class ArtworkResource extends Resource
                                     return $state;
                                 }),
                             TextColumn::make('likes_count')
-                                ->label('Stars')
+                                ->label('Likes')
                                 ->sortable()
-                                ->icon('heroicon-o-star')
+                                ->icon('heroicon-o-heart')
                                 ->iconColor('warning'),
                             TagsColumn::make('tags')
                                 ->label('Tags')
@@ -153,14 +153,14 @@ class ArtworkResource extends Resource
             ->actions([
                 ViewAction::make(),
                 \Filament\Tables\Actions\Action::make('like')
-                    ->icon(fn (Artwork $record) => $record->isLikedBy(\Filament\Facades\Filament::auth()->user()) ? 'heroicon-s-star' : 'heroicon-o-star')
+                    ->icon(fn (Artwork $record) => $record->isLikedBy(\Filament\Facades\Filament::auth()->user()) ? 'heroicon-s-heart' : 'heroicon-o-heart')
                     ->color(fn (Artwork $record) => $record->isLikedBy(\Filament\Facades\Filament::auth()->user()) ? 'warning' : 'gray')
                     ->action(function (Artwork $record) {
                         $isLiked = $record->toggleLike(\Filament\Facades\Filament::auth()->user());
                         $record->refresh();
                     })
                     ->label(fn (Artwork $record) => $record->likes_count)
-                    ->tooltip('Star this artwork'),
+                    ->tooltip('Like this artwork'),
             ])
             ->filters([]);
     }
@@ -211,19 +211,19 @@ class ArtworkResource extends Resource
                             ->separator(',')
                             ->columnSpanFull(),
                         TextEntry::make('likes_count')
-                            ->label('Stars')
+                            ->label('Likes')
                             ->badge()
                             ->color('success'),
                         Actions::make([
                             Action::make('like')
-                                ->label('Star')
-                                ->icon(fn (Artwork $record) => $record->isLikedBy(\Filament\Facades\Filament::auth()->user()) ? 'heroicon-s-star' : 'heroicon-o-star')
+                                ->label('Like')
+                                ->icon(fn (Artwork $record) => $record->isLikedBy(\Filament\Facades\Filament::auth()->user()) ? 'heroicon-m-heart' : 'heroicon-o-heart')
                                 ->color(fn (Artwork $record) => $record->isLikedBy(\Filament\Facades\Filament::auth()->user()) ? 'warning' : 'gray')
                                 ->action(function (Artwork $record) {
                                     $isLiked = $record->toggleLike(\Filament\Facades\Filament::auth()->user());
                                     $record->refresh();
                                 })
-                                ->tooltip('Star this artwork'),
+                                ->tooltip('Like this artwork'),
                         ]),
                         Section::make('Published By')
                             ->icon('heroicon-o-user')

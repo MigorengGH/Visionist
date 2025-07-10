@@ -2,21 +2,22 @@
 
 namespace App\Filament\Freelancer\Resources\UserProfileResource\Pages;
 
-use App\Filament\Freelancer\Resources\UserProfileResource;
-use App\Filament\Freelancer\Resources\UserProfileResource\Widgets\UserStatsWidget;
+use Filament\Forms;
+use App\Models\Chat;
 use App\Models\Hire;
 use App\Models\State;
-use App\Models\District;
 use Filament\Actions;
-use Filament\Forms;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\RichEditor;
+use App\Models\District;
+use Filament\Forms\Components\Tabs;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ViewRecord;
-use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\RichEditor;
+use App\Filament\Freelancer\Resources\UserProfileResource;
+use App\Filament\Freelancer\Resources\UserProfileResource\Widgets\UserStatsWidget;
 
 class ViewUserProfile extends ViewRecord
 {
@@ -35,6 +36,23 @@ class ViewUserProfile extends ViewRecord
             return [];
         }
         return [
+            Actions\Action::make('chat')
+            ->label('Message')
+            ->icon('heroicon-o-chat-bubble-left-right')
+            ->color('success')
+            ->button()
+            ->action(function ($record) {
+                $currentUser = Auth::user();
+                $targetUser = $record;
+                $chat = Chat::between($currentUser->id, $targetUser->id)->first();
+                if (!$chat) {
+                    $chat = Chat::create([
+                        'user_one_id' => $currentUser->id,
+                        'user_two_id' => $targetUser->id,
+                    ]);
+                }
+                return redirect()->route('filament.freelancer.resources.chats.view', ['record' => $chat]);
+            }),
             Actions\Action::make('hire')
                 ->label('Hire')
                 ->icon('heroicon-m-fire')
